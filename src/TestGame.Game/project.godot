@@ -1,0 +1,29 @@
+config_version=5
+
+[application]
+config/name="TestGame.Game"
+run/main_scene="res://src/Main.tscn"
+config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
+
+[autoload]
+LoggingSetup="*uid://b2y36fvqxrfoc"
+EventBus="*uid://b3llbrh147ll2"
+
+[debug]
+file_logging/enable_file_logging.pc=false
+
+[display]
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[dotnet]
+project/assembly_name="TestGame.Game"
+project/solution_directory="res://../.."
+
+[physics]
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+rendering_device/driver.windows="d3d12"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
