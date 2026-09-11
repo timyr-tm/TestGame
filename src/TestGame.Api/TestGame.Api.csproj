@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RepositoryUrl>https://github.com/timyr-tm/TestGame/tree/main/src/TestGame.Api</RepositoryUrl>
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="Serilog" Version="4.4.0" />

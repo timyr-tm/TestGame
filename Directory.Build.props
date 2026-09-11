@@ -1,5 +1,6 @@
 <Project>
     <PropertyGroup>
+        <RepositoryUrl>https://github.com/timyr-tm/TestGame</RepositoryUrl>
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

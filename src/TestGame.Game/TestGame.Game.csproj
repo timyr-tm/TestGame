@@ -1,6 +1,7 @@
 <Project Sdk="Godot.NET.Sdk/4.7.2">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <RepositoryUrl>https://github.com/timyr-tm/TestGame/tree/main/src/TestGame.Game</RepositoryUrl>
   </PropertyGroup>
   
   <ItemGroup>
