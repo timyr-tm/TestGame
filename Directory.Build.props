@@ -1,6 +1,8 @@
 <Project>
     <PropertyGroup>
         <RepositoryUrl>https://github.com/timyr-tm/TestGame</RepositoryUrl>
+        <PackageLicenseUrl>https://github.com/timyr-tm/TestGame/blob/main/LICENSE</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
