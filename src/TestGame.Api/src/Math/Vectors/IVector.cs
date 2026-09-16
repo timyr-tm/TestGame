@@ -2,60 +2,20 @@ using System.Numerics;
 
 namespace TestGame.Api.Math.Vectors;
 
-public interface IVector<TSelf, in TItem>:
-	IEquatable<TSelf>,
-	IMinMaxValue<TSelf>
-	where TSelf: IVector<TSelf, TItem>
-	where TItem: INumber<TItem>
-{
-	public float Length();
-
-	public float LengthSquared();
-
-	public TSelf Abs();
-
-	public TSelf Clamp(TSelf min, TSelf max);
+public interface IVector<TSelf, TItem> where TSelf: IVector<TSelf, TItem> {
+	public float Length { get; }
 	
-	public TSelf Clamp(TItem min, TItem max);
-
-	public float DistanceTo(TSelf vector);
-
-	public void operator += (TSelf vector);
-	public void operator += (TItem number);
-
-	public void operator -= (TSelf vector);
-	public void operator -= (TItem number);
-
-	public void operator *= (TSelf vector);
-	public void operator *= (TItem number);
-
-	public void operator /= (TSelf vector);
-	public void operator /= (TItem number);
-
-	public static abstract TSelf operator + (TSelf left, TSelf right);
-	public static abstract TSelf operator + (TSelf left, TItem right);
+	public TItem this[int index] { get; }
 	
-	public static abstract TSelf operator - (TSelf left, TSelf right);
-	public static abstract TSelf operator - (TSelf left, TItem right);
+	public TItem this[char name] { get; }
 	
-	public static abstract TSelf operator * (TSelf left, TSelf right);
-	public static abstract TSelf operator * (TSelf left, TItem right);
+	public static abstract TSelf Abs(TSelf value);
 	
-	public static abstract TSelf operator / (TSelf left, TSelf right);
-	public static abstract TSelf operator / (TSelf left, TItem right);
+	public static abstract TSelf Min(TSelf first, TSelf second);
 	
-	public static abstract TSelf operator + (TSelf vector);
-	public static abstract TSelf operator - (TSelf vector);
-	
-	public static abstract TSelf operator ++ (TSelf vector);
-	public static abstract TSelf operator -- (TSelf vector);
+	public static abstract TSelf Max(TSelf first, TSelf second);
 
-	public static abstract bool operator == (TSelf left, TSelf right);
-	public static abstract bool operator != (TSelf left, TSelf right);
-
-	public static abstract bool operator > (TSelf left, TSelf right);
-	public static abstract bool operator < (TSelf left, TSelf right);
-
-	public static abstract bool operator >= (TSelf left, TSelf right);
-	public static abstract bool operator <= (TSelf left, TSelf right);
+	public static abstract TSelf Clamp(TSelf value, TSelf min, TSelf max);
+	
+	public static abstract TSelf Clamp(TSelf value, TItem min, TItem max);
 }

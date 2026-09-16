@@ -1,160 +1,140 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace TestGame.Api.Math.Vectors;
 
-public struct Vector2F(float x, float y) : IVector2<Vector2F, float> {
+public readonly struct Vector2F(float x, float y):
+	IVector<Vector2F, float>,
+	IMinMaxValue<Vector2F>,
+	IEquatable<Vector2F>,
+	IUnaryPlusOperators<Vector2F, Vector2F>,
+	IUnaryNegationOperators<Vector2F, Vector2F>,
+	IAdditionOperators<Vector2F, Vector2F, Vector2F>,
+	IAdditionOperators<Vector2F, float, Vector2F>,
+	ISubtractionOperators<Vector2F, Vector2F, Vector2F>,
+	ISubtractionOperators<Vector2F, float, Vector2F>,
+	IMultiplyOperators<Vector2F, Vector2F, Vector2F>,
+	IMultiplyOperators<Vector2F, float, Vector2F>,
+	IDivisionOperators<Vector2F, Vector2F, Vector2F>,
+	IDivisionOperators<Vector2F, float, Vector2F>,
+	IComparisonOperators<Vector2F, Vector2F, bool>
+{
 	public static Vector2F MaxValue => new(float.MaxValue, float.MaxValue);
 	public static Vector2F MinValue => new(float.MinValue, float.MinValue);
+
+	public readonly float X = x;
+	public readonly float Y = y;
+
+	public float this[int index] => index switch {
+		0 => X,
+		1 => Y,
+		var _ => throw new Exception()
+	};
+
+	public float this[char name] => name switch {
+		'x' => X,
+		'y' => Y,
+		_ => throw new Exception()
+	};
+
+	public float Length => float.Sqrt(X * X + Y * Y);
 	
-	public float X { get; set; } = x;
-	public float Y { get; set; } = y;
+	public static Vector2F Abs(Vector2F value) => new(float.Abs(value.X), float.Abs(value.Y));
 
+	public static Vector2F Min(Vector2F first, Vector2F second)
+		=> first < second
+			? first
+			: second;
 
-	[SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
-	public bool Equals(Tuple<float, float>? other) => X == other?.Item1 && Y == other.Item2;
+	public static Vector2F Max(Vector2F first, Vector2F second)
+		=> first > second
+			? first
+			: second;
 
+	public static Vector2F Clamp(Vector2F value, Vector2F min, Vector2F max) => new(
+		float.Clamp(value.X, min.X, max.X),
+		float.Clamp(value.Y, min.Y, max.Y)
+	);
+
+	public static Vector2F Clamp(Vector2F value, float min, float max) => new(
+		float.Clamp(value.X, min, max),
+		float.Clamp(value.Y, min, max)
+	);
+	
 	public bool Equals(Vector2F other) => X.Equals(other.X) && Y.Equals(other.Y);
-	
-	[SuppressMessage("ReSharper", "FunctionRecursiveOnAllPaths")]
-	public override bool Equals(object? obj) => Equals((Vector2F?) obj) || Equals((Tuple<float, float>?) obj);
 
-	[SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
-	public override int GetHashCode() {
-		return HashCode.Combine(X, Y);
-	}
+	public override bool Equals([NotNullWhen(true)] object? obj)
+		=> obj is Vector2F vector && Equals(vector);
 
-	public override string ToString() => $"{nameof(Vector2F)}({X}, {Y})";
+	public override int GetHashCode() => HashCode.Combine(X, Y);
 
-	public float Length() => float.Sqrt(float.Pow(X, 2) + float.Pow(Y, 2));
+	public override string ToString() => $"Vector2F({X}, {Y})";
 
-	public float LengthSquared() => float.Pow(X, 2) + float.Pow(Y, 2);
+	public static Vector2F operator + (Vector2F self) => self;
 
-	public Vector2F Abs() => new(float.Abs(X), float.Abs(Y));
+	public static Vector2F operator - (Vector2F self) => new(-self.X, -self.Y);
 
-	public Vector2F Clamp(Vector2F min, Vector2F max) => new(
-		float.Clamp(X, min.X, max.X),
-		float.Clamp(Y, min.Y, max.Y)
+	public static Vector2F operator + (Vector2F self, Vector2F vector) => new(
+		self.X + vector.X,
+		self.Y + vector.Y
 	);
 
-	public Vector2F Clamp(float min, float max) => new(
-		float.Clamp(X, min, max),
-		float.Clamp(Y, min, max)
+	public static Vector2F operator + (Vector2F self, float number) => new(
+		self.X + number,
+		self.Y + number
 	);
 
-	public float DistanceTo(Vector2F vector) => float.Sqrt(
-		float.Pow(X - vector.X, 2) + float.Pow(Y - vector.Y, 2) 
+	public static Vector2F operator - (Vector2F self, Vector2F vector) => new(
+		self.X - vector.X,
+		self.Y - vector.Y
 	);
 
-	public void operator += (Vector2F vector) {
-		X += vector.X;
-		Y += vector.Y;
-	}
-
-	public void operator += (float number) {
-		X += number;
-		Y += number;
-	}
-
-	public void operator -= (Vector2F vector) {
-		X -= vector.X;
-		Y -= vector.Y;
-	}
-
-	public void operator -= (float number) {
-		X -= number;
-		Y -= number;
-	}
-
-	public void operator *= (Vector2F vector) {
-		X *= vector.X;
-		Y *= vector.Y;
-	}
-
-	public void operator *= (float number) {
-		X *= number;
-		Y *= number;
-	}
-
-	public void operator /= (Vector2F vector) {
-		X /= vector.X;
-		Y /= vector.Y;
-	}
-
-	public void operator /= (float number) {
-		X /= number;
-		Y /= number;
-	}
-
-	public static Vector2F operator + (Vector2F left, Vector2F right) => new(
-		left.X + right.X,
-		left.Y + right.Y
+	public static Vector2F operator - (Vector2F self, float number) => new(
+		self.X - number,
+		self.Y - number
 	);
 
-	public static Vector2F operator + (Vector2F left, float right) => new(
-		left.X + right,
-		left.Y + right
+	public static Vector2F operator * (Vector2F self, Vector2F vector) => new(
+		self.X * vector.X,
+		self.Y * vector.Y
 	);
 
-	public static Vector2F operator - (Vector2F left, Vector2F right) => new(
-		left.X - right.X,
-		left.Y - right.Y
+	public static Vector2F operator * (Vector2F self, float number) => new(
+		self.X * number,
+		self.Y * number
 	);
 
-	public static Vector2F operator - (Vector2F left, float right) => new(
-		left.X - right,
-		left.Y - right
+	public static Vector2F operator / (Vector2F self, Vector2F vector) => new(
+		self.X / vector.X,
+		self.Y / vector.Y
 	);
 
-	public static Vector2F operator * (Vector2F left, Vector2F right) => new(
-		left.X * right.X,
-		left.Y * right.Y
+	public static Vector2F operator / (Vector2F self, float number) => new(
+		self.X / number,
+		self.Y / number
 	);
 
-	public static Vector2F operator * (Vector2F left, float right) => new(
-		left.X * right,
-		left.Y * right
-	);
+	public static bool operator == (Vector2F self, Vector2F vector)
+		=> self.Equals(vector);
 
-	public static Vector2F operator / (Vector2F left, Vector2F right) => new(
-		left.X / right.X,
-		left.Y / right.Y
-	);
+	public static bool operator != (Vector2F self, Vector2F vector)
+		=> !self.Equals(vector);
 
-	public static Vector2F operator / (Vector2F left, float right) => new(
-		left.X / right,
-		left.Y / right
-	);
+	public static bool operator > (Vector2F self, Vector2F vector)
+		=> self.Length > vector.Length;
 
-	public static Vector2F operator + (Vector2F vector) => vector;
+	public static bool operator < (Vector2F self, Vector2F vector)
+		=> self.Length < vector.Length;
 
-	public static Vector2F operator - (Vector2F vector) => new(
-		-vector.X,
-		-vector.Y
-	);
+	public static bool operator >= (Vector2F self, Vector2F vector) 
+		=> self.Length >= vector.Length;
 
-	public static Vector2F operator ++ (Vector2F vector) => new(
-		vector.X + 1,
-		vector.Y + 1
-	);
+	public static bool operator <= (Vector2F self, Vector2F vector)
+		=> self.Length <= vector.Length;
 
-	public static Vector2F operator -- (Vector2F vector) => new(
-		vector.X - 1,
-		vector.Y - 1
-	);
+	public static implicit operator Vector2F((float X, float Y) tuple)
+		=> new(tuple.X, tuple.Y);
 
-	public static bool operator == (Vector2F left, Vector2F right) => left.Equals(right);
-
-	public static bool operator != (Vector2F left, Vector2F right) => !left.Equals(right);
-
-	public static bool operator > (Vector2F left, Vector2F right) => left.X > right.X && left.Y > right.Y;
-
-	public static bool operator < (Vector2F left, Vector2F right) => left.X < right.X && left.Y < right.Y;
-
-	public static bool operator >= (Vector2F left, Vector2F right) => left.X >= right.X && left.Y >= right.Y;
-
-	public static bool operator <= (Vector2F left, Vector2F right) => left.X <= right.X && left.Y <= right.Y;
-
-	public static implicit operator Vector2F ((float X, float Y) tuple) => new(tuple.X, tuple.Y);
-
-	public static explicit operator Tuple<float, float> (Vector2F vector) => new(vector.X, vector.Y);
+	public static explicit operator ValueTuple<float, float>(Vector2F vector)
+		=> new(vector.X, vector.Y);
 }
