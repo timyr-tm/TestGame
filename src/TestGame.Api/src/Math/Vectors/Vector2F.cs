@@ -3,10 +3,9 @@ using System.Numerics;
 
 namespace TestGame.Api.Math.Vectors;
 
-public readonly struct Vector2F(float x, float y):
-	IVector<Vector2F, float>,
+public readonly record struct Vector2F(float X, float Y):
+	IFloatingVector<Vector2F, float>,
 	IMinMaxValue<Vector2F>,
-	IEquatable<Vector2F>,
 	IUnaryPlusOperators<Vector2F, Vector2F>,
 	IUnaryNegationOperators<Vector2F, Vector2F>,
 	IAdditionOperators<Vector2F, Vector2F, Vector2F>,
@@ -22,9 +21,6 @@ public readonly struct Vector2F(float x, float y):
 	public static Vector2F MaxValue => new(float.MaxValue, float.MaxValue);
 	public static Vector2F MinValue => new(float.MinValue, float.MinValue);
 
-	public readonly float X = x;
-	public readonly float Y = y;
-
 	public float this[int index] => index switch {
 		0 => X,
 		1 => Y,
@@ -38,7 +34,12 @@ public readonly struct Vector2F(float x, float y):
 	};
 
 	public float Length => float.Sqrt(X * X + Y * Y);
-	
+
+	public static Vector2F Round(Vector2F vector, int digits = 0, MidpointRounding mode = MidpointRounding.ToEven) => new(
+		float.Round(vector.X, digits, mode),
+		float.Round(vector.Y, digits, mode)
+	);
+
 	public static Vector2F Abs(Vector2F value) => new(float.Abs(value.X), float.Abs(value.Y));
 
 	public static Vector2F Min(Vector2F first, Vector2F second)
@@ -62,9 +63,6 @@ public readonly struct Vector2F(float x, float y):
 	);
 	
 	public bool Equals(Vector2F other) => X.Equals(other.X) && Y.Equals(other.Y);
-
-	public override bool Equals([NotNullWhen(true)] object? obj)
-		=> obj is Vector2F vector && Equals(vector);
 
 	public override int GetHashCode() => HashCode.Combine(X, Y);
 
@@ -113,12 +111,6 @@ public readonly struct Vector2F(float x, float y):
 		self.X / number,
 		self.Y / number
 	);
-
-	public static bool operator == (Vector2F self, Vector2F vector)
-		=> self.Equals(vector);
-
-	public static bool operator != (Vector2F self, Vector2F vector)
-		=> !self.Equals(vector);
 
 	public static bool operator > (Vector2F self, Vector2F vector)
 		=> self.Length > vector.Length;

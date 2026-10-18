@@ -1,12 +1,10 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 namespace TestGame.Api.Math.Vectors;
 
-public readonly struct Vector3I(int x, int y, int z):
+public readonly record struct Vector3I(int X, int Y, int Z):
 	IVector<Vector3I, int>,
 	IMinMaxValue<Vector3I>,
-	IEquatable<Vector3I>,
 	IUnaryPlusOperators<Vector3I, Vector3I>,
 	IUnaryNegationOperators<Vector3I, Vector3I>,
 	IAdditionOperators<Vector3I, Vector3I, Vector3I>,
@@ -21,10 +19,6 @@ public readonly struct Vector3I(int x, int y, int z):
 {
 	public static Vector3I MaxValue => new(int.MaxValue, int.MaxValue, int.MaxValue);
 	public static Vector3I MinValue => new(int.MinValue, int.MinValue, int.MinValue);
-
-	public readonly int X = x;
-	public readonly int Y = y;
-	public readonly int Z = z;
 
 	public float Length => float.Sqrt(
 		X * X + Y * Y + Z * Z
@@ -74,9 +68,6 @@ public readonly struct Vector3I(int x, int y, int z):
 
 	public bool Equals(Vector3I other)
 		=> X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
-
-	public override bool Equals([NotNullWhen(true)] object? obj)
-		=> obj is Vector3I vector && Equals(vector);
 
 	public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
@@ -135,12 +126,6 @@ public readonly struct Vector3I(int x, int y, int z):
 		left.Y / right,
 		left.Z / right
 	);
-
-	public static bool operator ==(Vector3I left, Vector3I right)
-		=> left.Equals(right);
-
-	public static bool operator !=(Vector3I left, Vector3I right)
-		=> !left.Equals(right);
 
 	public static bool operator >(Vector3I left, Vector3I right)
 		=> left.Length > right.Length;

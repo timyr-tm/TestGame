@@ -1,8 +1,8 @@
-using System.Numerics;
-
 namespace TestGame.Api.Math.Vectors;
 
-public interface IVector<TSelf, TItem> where TSelf: IVector<TSelf, TItem> {
+public interface IVector<TSelf, TItem>
+	where TSelf: IVector<TSelf, TItem>
+{
 	public float Length { get; }
 	
 	public TItem this[int index] { get; }

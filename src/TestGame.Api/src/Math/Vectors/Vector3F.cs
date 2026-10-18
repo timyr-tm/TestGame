@@ -1,12 +1,10 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 namespace TestGame.Api.Math.Vectors;
 
-public readonly struct Vector3F(float x, float y, float z):
-	IVector<Vector3F, float>,
+public readonly record struct Vector3F(float X, float Y, float Z):
+	IFloatingVector<Vector3F, float>,
 	IMinMaxValue<Vector3F>,
-	IEquatable<Vector3F>,
 	IUnaryPlusOperators<Vector3F, Vector3F>,
 	IUnaryNegationOperators<Vector3F, Vector3F>,
 	IAdditionOperators<Vector3F, Vector3F, Vector3F>,
@@ -21,10 +19,6 @@ public readonly struct Vector3F(float x, float y, float z):
 {
 	public static Vector3F MaxValue => new(float.MaxValue, float.MaxValue, float.MaxValue);
 	public static Vector3F MinValue => new(float.MinValue, float.MinValue, float.MinValue);
-
-	public readonly float X = x;
-	public readonly float Y = y;
-	public readonly float Z = z;
 
 	public float Length => float.Sqrt(
 		X * X + Y * Y + Z * Z
@@ -43,6 +37,12 @@ public readonly struct Vector3F(float x, float y, float z):
 		'z' => Z,
 		_ => throw new Exception()
 	};
+
+	public static Vector3F Round(Vector3F vector, int digits = 0, MidpointRounding mode = MidpointRounding.ToEven) => new(
+		float.Round(vector.X, digits, mode),
+		float.Round(vector.Y, digits, mode),
+		float.Round(vector.Z, digits, mode)
+	);
 
 	public static Vector3F Abs(Vector3F value) => new(
 		float.Abs(value.X),
@@ -74,9 +74,6 @@ public readonly struct Vector3F(float x, float y, float z):
 
 	public bool Equals(Vector3F other)
 		=> X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
-
-	public override bool Equals([NotNullWhen(true)] object? obj)
-		=> obj is Vector3F vector && Equals(vector);
 
 	public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
@@ -135,12 +132,6 @@ public readonly struct Vector3F(float x, float y, float z):
 		left.Y / right,
 		left.Z / right
 	);
-
-	public static bool operator ==(Vector3F left, Vector3F right)
-		=> left.Equals(right);
-
-	public static bool operator !=(Vector3F left, Vector3F right)
-		=> !left.Equals(right);
 
 	public static bool operator >(Vector3F left, Vector3F right)
 		=> left.Length > right.Length;

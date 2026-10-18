@@ -1,12 +1,10 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 namespace TestGame.Api.Math.Vectors;
 
-public readonly struct Vector2I(int x, int y):
+public readonly record struct Vector2I(int X, int Y):
 	IVector<Vector2I, int>,
 	IMinMaxValue<Vector2I>,
-	IEquatable<Vector2I>,
 	IUnaryPlusOperators<Vector2I, Vector2I>,
 	IUnaryNegationOperators<Vector2I, Vector2I>,
 	IAdditionOperators<Vector2I, Vector2I, Vector2I>,
@@ -21,9 +19,6 @@ public readonly struct Vector2I(int x, int y):
 {
 	public static Vector2I MaxValue => new(int.MaxValue, int.MaxValue);
 	public static Vector2I MinValue => new(int.MinValue, int.MinValue);
-	
-	public readonly int X = x;
-	public readonly int Y = y;
 	
 	public float Length => float.Sqrt(X * X + Y * Y);
 
@@ -63,9 +58,6 @@ public readonly struct Vector2I(int x, int y):
 
 	public bool Equals(Vector2I other)
 		=> X.Equals(other.X) && Y.Equals(other.Y);
-
-	public override bool Equals([NotNullWhen(true)] object? obj) 
-		=> obj is Vector2I vector && Equals(vector);
 
 	public override int GetHashCode() => HashCode.Combine(X, Y);
 
@@ -114,12 +106,6 @@ public readonly struct Vector2I(int x, int y):
 		self.X / number,
 		self.Y / number
 	);
-
-	public static bool operator == (Vector2I self, Vector2I vector)
-		=> self.Equals(vector);
-
-	public static bool operator != (Vector2I self, Vector2I vector)
-		=> !self.Equals(vector);
 
 	public static bool operator > (Vector2I self, Vector2I vector)
 		=> self.Length > vector.Length;
