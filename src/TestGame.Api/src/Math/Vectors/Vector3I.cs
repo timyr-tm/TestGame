@@ -4,18 +4,10 @@ namespace TestGame.Api.Math.Vectors;
 
 public readonly record struct Vector3I(int X, int Y, int Z):
 	IVector<Vector3I, int>,
-	IMinMaxValue<Vector3I>,
-	IUnaryPlusOperators<Vector3I, Vector3I>,
-	IUnaryNegationOperators<Vector3I, Vector3I>,
-	IAdditionOperators<Vector3I, Vector3I, Vector3I>,
 	IAdditionOperators<Vector3I, int, Vector3I>,
-	ISubtractionOperators<Vector3I, Vector3I, Vector3I>,
 	ISubtractionOperators<Vector3I, int, Vector3I>,
-	IMultiplyOperators<Vector3I, Vector3I, Vector3I>,
 	IMultiplyOperators<Vector3I, int, Vector3I>,
-	IDivisionOperators<Vector3I, Vector3I, Vector3I>,
-	IDivisionOperators<Vector3I, int, Vector3I>,
-	IComparisonOperators<Vector3I, Vector3I, bool>
+	IDivisionOperators<Vector3I, int, Vector3I>
 {
 	public static Vector3I MaxValue => new(int.MaxValue, int.MaxValue, int.MaxValue);
 	public static Vector3I MinValue => new(int.MinValue, int.MinValue, int.MinValue);
@@ -37,6 +29,12 @@ public readonly record struct Vector3I(int X, int Y, int Z):
 		'z' => Z,
 		_ => throw new Exception()
 	};
+
+	public int CompareTo(Vector3I other) {
+		if (this < other)
+			return -1;
+		return this > other ? 1 : 0;
+	}
 
 	public static Vector3I Abs(Vector3I value) => new(
 		int.Abs(value.X),
@@ -72,6 +70,9 @@ public readonly record struct Vector3I(int X, int Y, int Z):
 	public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
 	public override string ToString() => $"Vector3I({X}, {Y}, {Z})";
+	
+	public string ToString(string? format, IFormatProvider? provider)
+		=> $"Vector3I({X.ToString(format, provider)}, {Y.ToString(format, provider)}, {Z.ToString(format, provider)})";
 
 	public static Vector3I operator +(Vector3I value) => value;
 
@@ -79,6 +80,14 @@ public readonly record struct Vector3I(int X, int Y, int Z):
 		-value.X, -value.Y, -value.Z
 	);
 
+	public static Vector3I operator ++(Vector3I value) => new(
+		value.X + 1, value.Y + 1, value.Z + 1
+	);
+
+	public static Vector3I operator --(Vector3I value) => new(
+		value.X - 1, value.Y - 1, value.Z - 1
+	);
+	
 	public static Vector3I operator +(Vector3I left, Vector3I right) => new(
 		left.X + right.X,
 		left.Y + right.Y,
@@ -125,6 +134,10 @@ public readonly record struct Vector3I(int X, int Y, int Z):
 		left.X / right,
 		left.Y / right,
 		left.Z / right
+	);
+
+	public static Vector3I operator %(Vector3I left, Vector3I right) => new(
+		left.X % right.X, left.Y % right.Y, left.Z % right.Z
 	);
 
 	public static bool operator >(Vector3I left, Vector3I right)

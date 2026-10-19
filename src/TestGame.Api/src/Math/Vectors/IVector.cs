@@ -1,7 +1,24 @@
+using System.Numerics;
+
 namespace TestGame.Api.Math.Vectors;
 
-public interface IVector<TSelf, TItem>
+public interface IVector<TSelf, TItem>:
+	IFormattable,
+	IComparable<TSelf>,
+	IEquatable<TSelf>,
+	IMinMaxValue<TSelf>,
+	IIncrementOperators<TSelf>,
+	IDecrementOperators<TSelf>,
+	IUnaryPlusOperators<TSelf, TSelf>,
+	IUnaryNegationOperators<TSelf, TSelf>,
+	IAdditionOperators<TSelf, TSelf, TSelf>,
+	ISubtractionOperators<TSelf, TSelf, TSelf>,
+	IMultiplyOperators<TSelf, TSelf, TSelf>,
+	IDivisionOperators<TSelf, TSelf, TSelf>,
+	IModulusOperators<TSelf, TSelf, TSelf>,
+	IComparisonOperators<TSelf, TSelf, bool>
 	where TSelf: IVector<TSelf, TItem>
+	where TItem: INumber<TItem>
 {
 	public float Length { get; }
 	

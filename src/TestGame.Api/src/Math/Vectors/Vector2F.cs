@@ -5,18 +5,10 @@ namespace TestGame.Api.Math.Vectors;
 
 public readonly record struct Vector2F(float X, float Y):
 	IFloatingVector<Vector2F, float>,
-	IMinMaxValue<Vector2F>,
-	IUnaryPlusOperators<Vector2F, Vector2F>,
-	IUnaryNegationOperators<Vector2F, Vector2F>,
-	IAdditionOperators<Vector2F, Vector2F, Vector2F>,
 	IAdditionOperators<Vector2F, float, Vector2F>,
-	ISubtractionOperators<Vector2F, Vector2F, Vector2F>,
 	ISubtractionOperators<Vector2F, float, Vector2F>,
-	IMultiplyOperators<Vector2F, Vector2F, Vector2F>,
 	IMultiplyOperators<Vector2F, float, Vector2F>,
-	IDivisionOperators<Vector2F, Vector2F, Vector2F>,
-	IDivisionOperators<Vector2F, float, Vector2F>,
-	IComparisonOperators<Vector2F, Vector2F, bool>
+	IDivisionOperators<Vector2F, float, Vector2F>
 {
 	public static Vector2F MaxValue => new(float.MaxValue, float.MaxValue);
 	public static Vector2F MinValue => new(float.MinValue, float.MinValue);
@@ -32,8 +24,13 @@ public readonly record struct Vector2F(float X, float Y):
 		'y' => Y,
 		_ => throw new Exception()
 	};
-
 	public float Length => float.Sqrt(X * X + Y * Y);
+
+	public int CompareTo(Vector2F other) {
+		if (this < other)
+			return -1;
+		return this > other ? 1 : 0;
+	}
 
 	public static Vector2F Round(Vector2F vector, int digits = 0, MidpointRounding mode = MidpointRounding.ToEven) => new(
 		float.Round(vector.X, digits, mode),
@@ -67,10 +64,17 @@ public readonly record struct Vector2F(float X, float Y):
 	public override int GetHashCode() => HashCode.Combine(X, Y);
 
 	public override string ToString() => $"Vector2F({X}, {Y})";
+	
+	public string ToString(string? format, IFormatProvider? provider)
+		=> $"Vector2F({X.ToString(format, provider)}, {Y.ToString(format, provider)})";
 
 	public static Vector2F operator + (Vector2F self) => self;
 
 	public static Vector2F operator - (Vector2F self) => new(-self.X, -self.Y);
+
+	public static Vector2F operator ++(Vector2F value) => new(value.X + 1, value.Y + 1);
+
+	public static Vector2F operator --(Vector2F value) => new(value.X - 1, value.Y - 1);
 
 	public static Vector2F operator + (Vector2F self, Vector2F vector) => new(
 		self.X + vector.X,
@@ -112,6 +116,11 @@ public readonly record struct Vector2F(float X, float Y):
 		self.Y / number
 	);
 
+	public static Vector2F operator %(Vector2F left, Vector2F right) => new(
+		left.X % right.X,
+		left.Y % right.Y
+	);
+
 	public static bool operator > (Vector2F self, Vector2F vector)
 		=> self.Length > vector.Length;
 
@@ -129,4 +138,5 @@ public readonly record struct Vector2F(float X, float Y):
 
 	public static explicit operator ValueTuple<float, float>(Vector2F vector)
 		=> new(vector.X, vector.Y);
+
 }

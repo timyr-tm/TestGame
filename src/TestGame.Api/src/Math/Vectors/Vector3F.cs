@@ -4,18 +4,10 @@ namespace TestGame.Api.Math.Vectors;
 
 public readonly record struct Vector3F(float X, float Y, float Z):
 	IFloatingVector<Vector3F, float>,
-	IMinMaxValue<Vector3F>,
-	IUnaryPlusOperators<Vector3F, Vector3F>,
-	IUnaryNegationOperators<Vector3F, Vector3F>,
-	IAdditionOperators<Vector3F, Vector3F, Vector3F>,
 	IAdditionOperators<Vector3F, float, Vector3F>,
-	ISubtractionOperators<Vector3F, Vector3F, Vector3F>,
 	ISubtractionOperators<Vector3F, float, Vector3F>,
-	IMultiplyOperators<Vector3F, Vector3F, Vector3F>,
 	IMultiplyOperators<Vector3F, float, Vector3F>,
-	IDivisionOperators<Vector3F, Vector3F, Vector3F>,
-	IDivisionOperators<Vector3F, float, Vector3F>,
-	IComparisonOperators<Vector3F, Vector3F, bool>
+	IDivisionOperators<Vector3F, float, Vector3F>
 {
 	public static Vector3F MaxValue => new(float.MaxValue, float.MaxValue, float.MaxValue);
 	public static Vector3F MinValue => new(float.MinValue, float.MinValue, float.MinValue);
@@ -37,6 +29,12 @@ public readonly record struct Vector3F(float X, float Y, float Z):
 		'z' => Z,
 		_ => throw new Exception()
 	};
+
+	public int CompareTo(Vector3F other) {
+		if (this < other)
+			return -1;
+		return this > other ? 1 : 0;
+	}
 
 	public static Vector3F Round(Vector3F vector, int digits = 0, MidpointRounding mode = MidpointRounding.ToEven) => new(
 		float.Round(vector.X, digits, mode),
@@ -78,11 +76,22 @@ public readonly record struct Vector3F(float X, float Y, float Z):
 	public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
 	public override string ToString() => $"Vector3F({X}, {Y}, {Z})";
+	
+	public string ToString(string? format, IFormatProvider? provider)
+		=> $"Vector3F({X.ToString(format, provider)}, {Y.ToString(format, provider)}, {Z.ToString(format, provider)})";
 
 	public static Vector3F operator +(Vector3F value) => value;
 
 	public static Vector3F operator -(Vector3F value) => new(
 		-value.X, -value.Y, -value.Z
+	);
+
+	public static Vector3F operator ++(Vector3F value) => new(
+		value.X + 1, value.Y + 1, value.Z + 1
+	);
+
+	public static Vector3F operator --(Vector3F value) => new(
+		value.X - 1, value.Y - 1, value.Z - 1
 	);
 
 	public static Vector3F operator +(Vector3F left, Vector3F right) => new(
@@ -131,6 +140,10 @@ public readonly record struct Vector3F(float X, float Y, float Z):
 		left.X / right,
 		left.Y / right,
 		left.Z / right
+	);
+
+	public static Vector3F operator %(Vector3F left, Vector3F right) => new(
+		left.X % right.X, left.Y % right.Y, left.Z % right.Z
 	);
 
 	public static bool operator >(Vector3F left, Vector3F right)
