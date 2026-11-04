@@ -1,5 +1,5 @@
-using TestGame.Api.Event;
-
 namespace TestGame.Game.Event;
 
-public sealed class SetupEvent: IEvent;
+using TestGame.Api.Event;
+
+public sealed class SetupEvent: Event;

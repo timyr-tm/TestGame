@@ -6,6 +6,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\TestGame.Api\TestGame.Api.csproj" />
+    <ProjectReference Include="..\TestGame.SourceGenerators\TestGame.SourceGenerators.csproj" OutputItemType="Analyzer" PrivateAssets="false" />
 
     <PackageReference Include="Serilog" Version="4.4.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />

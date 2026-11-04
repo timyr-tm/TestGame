@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="src/TestGame.Game/TestGame.Game.csproj" />
   <Project Path="src/TestGame.Api/TestGame.Api.csproj" />
+  <Project Path="src/TestGame.SourceGenerators/TestGame.SourceGenerators.csproj" />
 </Solution>
