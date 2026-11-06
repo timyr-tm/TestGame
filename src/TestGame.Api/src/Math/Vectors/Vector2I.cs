@@ -17,13 +17,19 @@ public readonly record struct Vector2I(int X, int Y):
 	public int this[int index] => index switch {
 		0 => X,
 		1 => Y,
-		var _ => throw new Exception()
+        var _ => throw new ArgumentOutOfRangeException(
+            nameof(index), index,
+            $"Invalid vector component index. Expected range: [0, 1], but got {index}."
+        )
 	};
 
 	public int this[char name] => name switch {
 		'x' => X,
 		'y' => Y,
-		_ => throw new Exception()
+        var _ => throw new ArgumentException(
+            $"Invalid vector component name. Expected 'x' or 'y', but got '{name}'.",
+            nameof(name)
+        )
 	};
 
 	public int CompareTo(Vector2I other) {

@@ -20,14 +20,20 @@ public readonly record struct Vector3I(int X, int Y, int Z):
 		0 => X,
 		1 => Y,
 		2 => Z,
-		_ => throw new Exception()
+        var _ => throw new ArgumentOutOfRangeException(
+            nameof(index), index,
+            $"Invalid vector component index. Expected range: [0, 2], but got {index}."
+        )
 	};
 
 	public int this[char name] => name switch {
 		'x' => X,
 		'y' => Y,
 		'z' => Z,
-		_ => throw new Exception()
+        var _ => throw new ArgumentException(
+            $"Invalid vector component name. Expected 'x', 'y' or 'z', but got '{name}'.",
+            nameof(name)
+        )
 	};
 
 	public int CompareTo(Vector3I other) {
