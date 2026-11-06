@@ -12,9 +12,10 @@ public readonly record struct Vector3F(float X, float Y, float Z):
 	public static Vector3F MaxValue => new(float.MaxValue, float.MaxValue, float.MaxValue);
 	public static Vector3F MinValue => new(float.MinValue, float.MinValue, float.MinValue);
 
-	public float Length => float.Sqrt(
-		X * X + Y * Y + Z * Z
-	);
+    public float LengthSquared
+        => X * X + Y * Y + Z * Z;
+
+    public float Length => float.Sqrt(LengthSquared);
 
 	public float this[int index] => index switch {
 		0 => X,

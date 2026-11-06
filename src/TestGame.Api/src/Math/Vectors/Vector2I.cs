@@ -11,8 +11,10 @@ public readonly record struct Vector2I(int X, int Y):
 {
 	public static Vector2I MaxValue => new(int.MaxValue, int.MaxValue);
 	public static Vector2I MinValue => new(int.MinValue, int.MinValue);
-
-	public float Length => float.Sqrt(X * X + Y * Y);
+    
+    public float LengthSquared => (float) X * X + (float) Y * Y;
+    
+    public float Length => float.Sqrt(LengthSquared);
 
 	public int this[int index] => index switch {
 		0 => X,

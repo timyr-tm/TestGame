@@ -20,6 +20,8 @@ public interface IVector<TSelf, TItem>:
 	where TSelf: IVector<TSelf, TItem>
 	where TItem: INumber<TItem>
 {
+    public float LengthSquared { get; }
+    
 	public float Length { get; }
 	
 	public TItem this[int index] { get; }

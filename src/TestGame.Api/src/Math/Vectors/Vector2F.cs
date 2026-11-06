@@ -11,6 +11,10 @@ public readonly record struct Vector2F(float X, float Y):
 {
 	public static Vector2F MaxValue => new(float.MaxValue, float.MaxValue);
 	public static Vector2F MinValue => new(float.MinValue, float.MinValue);
+    
+    public float LengthSquared => X * X + Y * Y;
+    
+    public float Length => float.Sqrt(LengthSquared);
 
 	public float this[int index] => index switch {
 		0 => X,
@@ -29,7 +33,6 @@ public readonly record struct Vector2F(float X, float Y):
             nameof(name)
         )
 	};
-	public float Length => float.Sqrt(X * X + Y * Y);
 
 	public int CompareTo(Vector2F other) {
 		if (this < other)
