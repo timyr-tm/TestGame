@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 namespace TestGame.Api.Math.Vectors;
@@ -121,22 +120,21 @@ public readonly record struct Vector2F(float X, float Y):
 		left.Y % right.Y
 	);
 
-	public static bool operator > (Vector2F self, Vector2F vector)
-		=> self.Length > vector.Length;
+	public static bool operator > (Vector2F self, Vector2F other)
+		=> self.X > other.X && self.Y > other.Y;
 
-	public static bool operator < (Vector2F self, Vector2F vector)
-		=> self.Length < vector.Length;
+	public static bool operator < (Vector2F self, Vector2F other)
+		=> self.X < other.X && self.Y < other.Y;
 
-	public static bool operator >= (Vector2F self, Vector2F vector) 
-		=> self.Length >= vector.Length;
+	public static bool operator >= (Vector2F self, Vector2F other)
+        => self.X >= other.X && self.Y >= other.Y;
 
-	public static bool operator <= (Vector2F self, Vector2F vector)
-		=> self.Length <= vector.Length;
-
-	public static implicit operator Vector2F((float X, float Y) tuple)
-		=> new(tuple.X, tuple.Y);
+	public static bool operator <= (Vector2F self, Vector2F other)
+        => self.X <= other.X && self.Y <= other.Y;
 
 	public static explicit operator ValueTuple<float, float>(Vector2F vector)
 		=> new(vector.X, vector.Y);
 
+	public static explicit operator ValueTuple<float, float> (Vector2F self)
+		=> new(self.X, self.Y);
 }

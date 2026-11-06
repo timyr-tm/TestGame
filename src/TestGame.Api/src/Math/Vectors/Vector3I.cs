@@ -140,17 +140,17 @@ public readonly record struct Vector3I(int X, int Y, int Z):
 		left.X % right.X, left.Y % right.Y, left.Z % right.Z
 	);
 
-	public static bool operator >(Vector3I left, Vector3I right)
-		=> left.Length > right.Length;
+	public static bool operator >(Vector3I self, Vector3I other)
+        => self.X > other.X && self.Y > other.Y && self.Z > other.Z;
 
-	public static bool operator >=(Vector3I left, Vector3I right)
-		=> left.Length >= right.Length;
+	public static bool operator >=(Vector3I self, Vector3I other)
+        => self.X >= other.X && self.Y >= other.Y && self.Z >= other.Z;
 
-	public static bool operator <(Vector3I left, Vector3I right)
-		=> left.Length < right.Length;
+	public static bool operator <(Vector3I self, Vector3I other)
+        => self.X < other.X && self.Y < other.Y && self.Z < other.Z;
 
-	public static bool operator <=(Vector3I left, Vector3I right)
-		=> left.Length <= right.Length;
+	public static bool operator <=(Vector3I self, Vector3I other)
+        => self.X <= other.X && self.Y <= other.Y && self.Z <= other.Z;
 	
 	public static implicit operator Vector3I((int X, int Y, int Z) tuple)
 		=> new(tuple.X, tuple.Y, tuple.Z);

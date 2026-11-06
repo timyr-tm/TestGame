@@ -146,17 +146,17 @@ public readonly record struct Vector3F(float X, float Y, float Z):
 		left.X % right.X, left.Y % right.Y, left.Z % right.Z
 	);
 
-	public static bool operator >(Vector3F left, Vector3F right)
-		=> left.Length > right.Length;
+	public static bool operator >(Vector3F self, Vector3F other)
+		=> self.X > other.X && self.Y > other.Y && self.Z > other.Z;
 
-	public static bool operator >=(Vector3F left, Vector3F right)
-		=> left.Length >= right.Length;
+	public static bool operator >=(Vector3F self, Vector3F other)
+        => self.X >= other.X && self.Y >= other.Y && self.Z >= other.Z;
 
-	public static bool operator <(Vector3F left, Vector3F right)
-		=> left.Length < right.Length;
+	public static bool operator <(Vector3F self, Vector3F other)
+        => self.X < other.X && self.Y < other.Y && self.Z < other.Z;
 
-	public static bool operator <=(Vector3F left, Vector3F right)
-		=> left.Length <= right.Length;
+	public static bool operator <=(Vector3F self, Vector3F other)
+        => self.X <= other.X && self.Y <= other.Y && self.Z <= other.Z;
 	
 	public static implicit operator Vector3F((float X, float Y, float Z) tuple)
 		=> new(tuple.X, tuple.Y, tuple.Z);

@@ -117,17 +117,17 @@ public readonly record struct Vector2I(int X, int Y):
 		left.Y % right.Y
 	);
 
-	public static bool operator > (Vector2I self, Vector2I vector)
-		=> self.Length > vector.Length;
+	public static bool operator > (Vector2I self, Vector2I other)
+		=> self.X > other.X && self.Y > other.Y;
 
-	public static bool operator < (Vector2I self, Vector2I vector)
-		=> self.Length < vector.Length;
+	public static bool operator < (Vector2I self, Vector2I other)
+		=> self.X < other.X && self.Y < other.Y;
 
-	public static bool operator >= (Vector2I self, Vector2I vector) 
-		=> self.Length >= vector.Length;
+	public static bool operator >= (Vector2I self, Vector2I other) 
+		=> self.X >= other.X && self.Y >= other.Y;
 
-	public static bool operator <= (Vector2I self, Vector2I vector)
-		=> self.Length <= vector.Length;
+	public static bool operator <= (Vector2I self, Vector2I other)
+		=> self.X <= other.X && self.Y <= other.Y;
 
 	public static implicit operator Vector2I((int X, int Y) tuple)
 		=> new(tuple.X, tuple.Y);
