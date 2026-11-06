@@ -80,49 +80,49 @@ public readonly record struct Vector2I(int X, int Y):
 
 	public static Vector2I operator --(Vector2I value) => new(value.X - 1, value.Y - 1);
 
-	public static Vector2I operator + (Vector2I self, Vector2I vector) => new(
-		self.X + vector.X,
-		self.Y + vector.Y
+	public static Vector2I operator + (Vector2I self, Vector2I other) => new(
+		self.X + other.X,
+		self.Y + other.Y
 	);
 
-	public static Vector2I operator + (Vector2I self, int number) => new(
-		self.X + number,
-		self.Y + number
+	public static Vector2I operator + (Vector2I self, int other) => new(
+		self.X + other,
+		self.Y + other
 	);
 
-	public static Vector2I operator - (Vector2I self, Vector2I vector) => new(
-		self.X - vector.X,
-		self.Y - vector.Y
+	public static Vector2I operator - (Vector2I self, Vector2I other) => new(
+		self.X - other.X,
+		self.Y - other.Y
 	);
 
-	public static Vector2I operator - (Vector2I self, int number) => new(
-		self.X - number,
-		self.Y - number
+	public static Vector2I operator - (Vector2I self, int other) => new(
+		self.X - other,
+		self.Y - other
 	);
 
-	public static Vector2I operator * (Vector2I self, Vector2I vector) => new(
-		self.X * vector.X,
-		self.Y * vector.Y
+	public static Vector2I operator * (Vector2I self, Vector2I other) => new(
+		self.X * other.X,
+		self.Y * other.Y
 	);
 
-	public static Vector2I operator * (Vector2I self, int number) => new(
-		self.X * number,
-		self.Y * number
+	public static Vector2I operator * (Vector2I self, int other) => new(
+		self.X * other,
+		self.Y * other
 	);
 
-	public static Vector2I operator / (Vector2I self, Vector2I vector) => new(
-		self.X / vector.X,
-		self.Y / vector.Y
+	public static Vector2I operator / (Vector2I self, Vector2I other) => new(
+		self.X / other.X,
+		self.Y / other.Y
 	);
 
-	public static Vector2I operator / (Vector2I self, int number) => new(
-		self.X / number,
-		self.Y / number
+	public static Vector2I operator / (Vector2I self, int other) => new(
+		self.X / other,
+		self.Y / other
 	);
 
-	public static Vector2I operator %(Vector2I left, Vector2I right) => new(
-		left.X % right.X,
-		left.Y % right.Y
+	public static Vector2I operator %(Vector2I left, Vector2I other) => new(
+		left.X % other.X,
+		left.Y % other.Y
 	);
 
 	public static bool operator > (Vector2I self, Vector2I other)
@@ -137,8 +137,8 @@ public readonly record struct Vector2I(int X, int Y):
 	public static bool operator <= (Vector2I self, Vector2I other)
 		=> self.X <= other.X && self.Y <= other.Y;
 
-	public static implicit operator Vector2I((int X, int Y) tuple)
-		=> new(tuple.X, tuple.Y);
+	public static implicit operator Vector2I((int X, int Y) other)
+		=> new(other.X, other.Y);
 
 	public static explicit operator ValueTuple<int, int>(Vector2I vector)
 		=> new(vector.X, vector.Y);

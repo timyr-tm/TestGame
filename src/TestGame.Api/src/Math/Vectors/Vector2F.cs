@@ -84,49 +84,49 @@ public readonly record struct Vector2F(float X, float Y):
 
 	public static Vector2F operator --(Vector2F value) => new(value.X - 1, value.Y - 1);
 
-	public static Vector2F operator + (Vector2F self, Vector2F vector) => new(
-		self.X + vector.X,
-		self.Y + vector.Y
+	public static Vector2F operator + (Vector2F self, Vector2F other) => new(
+		self.X + other.X,
+		self.Y + other.Y
 	);
 
-	public static Vector2F operator + (Vector2F self, float number) => new(
-		self.X + number,
-		self.Y + number
+	public static Vector2F operator + (Vector2F self, float other) => new(
+		self.X + other,
+		self.Y + other
 	);
 
-	public static Vector2F operator - (Vector2F self, Vector2F vector) => new(
-		self.X - vector.X,
-		self.Y - vector.Y
+	public static Vector2F operator - (Vector2F self, Vector2F other) => new(
+		self.X - other.X,
+		self.Y - other.Y
 	);
 
-	public static Vector2F operator - (Vector2F self, float number) => new(
-		self.X - number,
-		self.Y - number
+	public static Vector2F operator - (Vector2F self, float other) => new(
+		self.X - other,
+		self.Y - other
 	);
 
-	public static Vector2F operator * (Vector2F self, Vector2F vector) => new(
-		self.X * vector.X,
-		self.Y * vector.Y
+	public static Vector2F operator * (Vector2F self, Vector2F other) => new(
+		self.X * other.X,
+		self.Y * other.Y
 	);
 
-	public static Vector2F operator * (Vector2F self, float number) => new(
-		self.X * number,
-		self.Y * number
+	public static Vector2F operator * (Vector2F self, float other) => new(
+		self.X * other,
+		self.Y * other
 	);
 
-	public static Vector2F operator / (Vector2F self, Vector2F vector) => new(
-		self.X / vector.X,
-		self.Y / vector.Y
+	public static Vector2F operator / (Vector2F self, Vector2F other) => new(
+		self.X / other.X,
+		self.Y / other.Y
 	);
 
-	public static Vector2F operator / (Vector2F self, float number) => new(
-		self.X / number,
-		self.Y / number
+	public static Vector2F operator / (Vector2F self, float other) => new(
+		self.X / other,
+		self.Y / other
 	);
 
-	public static Vector2F operator %(Vector2F left, Vector2F right) => new(
-		left.X % right.X,
-		left.Y % right.Y
+	public static Vector2F operator %(Vector2F left, Vector2F other) => new(
+		left.X % other.X,
+		left.Y % other.Y
 	);
 
 	public static bool operator > (Vector2F self, Vector2F other)
@@ -141,8 +141,8 @@ public readonly record struct Vector2F(float X, float Y):
 	public static bool operator <= (Vector2F self, Vector2F other)
         => self.X <= other.X && self.Y <= other.Y;
 
-	public static explicit operator ValueTuple<float, float>(Vector2F vector)
-		=> new(vector.X, vector.Y);
+	public static implicit operator Vector2F((float X, float Y) other)
+		=> new(other.X, other.Y);
 
 	public static explicit operator ValueTuple<float, float> (Vector2F self)
 		=> new(self.X, self.Y);

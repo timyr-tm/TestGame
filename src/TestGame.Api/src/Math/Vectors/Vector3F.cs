@@ -87,70 +87,70 @@ public readonly record struct Vector3F(float X, float Y, float Z):
 	public string ToString(string? format, IFormatProvider? provider)
 		=> $"Vector3F({X.ToString(format, provider)}, {Y.ToString(format, provider)}, {Z.ToString(format, provider)})";
 
-	public static Vector3F operator +(Vector3F value) => value;
+	public static Vector3F operator +(Vector3F self) => self;
 
-	public static Vector3F operator -(Vector3F value) => new(
-		-value.X, -value.Y, -value.Z
+	public static Vector3F operator -(Vector3F self) => new(
+		-self.X, -self.Y, -self.Z
 	);
 
-	public static Vector3F operator ++(Vector3F value) => new(
-		value.X + 1, value.Y + 1, value.Z + 1
+	public static Vector3F operator ++(Vector3F self) => new(
+		self.X + 1, self.Y + 1, self.Z + 1
 	);
 
-	public static Vector3F operator --(Vector3F value) => new(
-		value.X - 1, value.Y - 1, value.Z - 1
+	public static Vector3F operator --(Vector3F self) => new(
+		self.X - 1, self.Y - 1, self.Z - 1
 	);
 
-	public static Vector3F operator +(Vector3F left, Vector3F right) => new(
-		left.X + right.X,
-		left.Y + right.Y,
-		left.Z + right.Z
+	public static Vector3F operator +(Vector3F self, Vector3F other) => new(
+		self.X + other.X,
+		self.Y + other.Y,
+		self.Z + other.Z
 	);
 
-	public static Vector3F operator +(Vector3F left, float right) => new(
-		left.X + right,
-		left.Y + right,
-		left.Z + right
+	public static Vector3F operator +(Vector3F self, float other) => new(
+		self.X + other,
+		self.Y + other,
+		self.Z + other
 	);
 
-	public static Vector3F operator -(Vector3F left, Vector3F right) => new(
-		left.X - right.X,
-		left.Y - right.Y,
-		left.Z - right.Z
+	public static Vector3F operator -(Vector3F self, Vector3F other) => new(
+		self.X - other.X,
+		self.Y - other.Y,
+		self.Z - other.Z
 	);
 
-	public static Vector3F operator -(Vector3F left, float right) => new(
-		left.X - right,
-		left.Y - right,
-		left.Z - right
+	public static Vector3F operator -(Vector3F self, float other) => new(
+		self.X - other,
+		self.Y - other,
+		self.Z - other
 	);
 
-	public static Vector3F operator *(Vector3F left, Vector3F right) => new(
-		left.X * right.X,
-		left.Y * right.Y,
-		left.Z * right.Z
+	public static Vector3F operator *(Vector3F self, Vector3F other) => new(
+		self.X * other.X,
+		self.Y * other.Y,
+		self.Z * other.Z
 	);
 
-	public static Vector3F operator *(Vector3F left, float right) => new(
-		left.X * right,
-		left.Y * right,
-		left.Z * right
+	public static Vector3F operator *(Vector3F self, float other) => new(
+		self.X * other,
+		self.Y * other,
+		self.Z * other
 	);
 
-	public static Vector3F operator /(Vector3F left, Vector3F right) => new(
-		left.X / right.X,
-		left.Y / right.Y,
-		left.Z / right.Z
+	public static Vector3F operator /(Vector3F self, Vector3F other) => new(
+		self.X / other.X,
+		self.Y / other.Y,
+		self.Z / other.Z
 	);
 
-	public static Vector3F operator /(Vector3F left, float right) => new(
-		left.X / right,
-		left.Y / right,
-		left.Z / right
+	public static Vector3F operator /(Vector3F self, float other) => new(
+		self.X / other,
+		self.Y / other,
+		self.Z / other
 	);
 
-	public static Vector3F operator %(Vector3F left, Vector3F right) => new(
-		left.X % right.X, left.Y % right.Y, left.Z % right.Z
+	public static Vector3F operator %(Vector3F self, Vector3F other) => new(
+		self.X % other.X, self.Y % other.Y, self.Z % other.Z
 	);
 
 	public static bool operator >(Vector3F self, Vector3F other)
@@ -165,9 +165,9 @@ public readonly record struct Vector3F(float X, float Y, float Z):
 	public static bool operator <=(Vector3F self, Vector3F other)
         => self.X <= other.X && self.Y <= other.Y && self.Z <= other.Z;
 	
-	public static implicit operator Vector3F((float X, float Y, float Z) tuple)
-		=> new(tuple.X, tuple.Y, tuple.Z);
+	public static implicit operator Vector3F((float X, float Y, float Z) other)
+		=> new(other.X, other.Y, other.Z);
 
-	public static explicit operator ValueTuple<float, float, float>(Vector3F vector)
-		=> new(vector.X, vector.Y, vector.Z);
+	public static explicit operator ValueTuple<float, float, float>(Vector3F self)
+		=> new(self.X, self.Y, self.Z);
 }

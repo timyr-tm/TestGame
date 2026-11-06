@@ -81,70 +81,70 @@ public readonly record struct Vector3I(int X, int Y, int Z):
 	public string ToString(string? format, IFormatProvider? provider)
 		=> $"Vector3I({X.ToString(format, provider)}, {Y.ToString(format, provider)}, {Z.ToString(format, provider)})";
 
-	public static Vector3I operator +(Vector3I value) => value;
+	public static Vector3I operator +(Vector3I self) => self;
 
-	public static Vector3I operator -(Vector3I value) => new(
-		-value.X, -value.Y, -value.Z
+	public static Vector3I operator -(Vector3I self) => new(
+		-self.X, -self.Y, -self.Z
 	);
 
-	public static Vector3I operator ++(Vector3I value) => new(
-		value.X + 1, value.Y + 1, value.Z + 1
+	public static Vector3I operator ++(Vector3I self) => new(
+		self.X + 1, self.Y + 1, self.Z + 1
 	);
 
-	public static Vector3I operator --(Vector3I value) => new(
-		value.X - 1, value.Y - 1, value.Z - 1
+	public static Vector3I operator --(Vector3I self) => new(
+		self.X - 1, self.Y - 1, self.Z - 1
 	);
 	
-	public static Vector3I operator +(Vector3I left, Vector3I right) => new(
-		left.X + right.X,
-		left.Y + right.Y,
-		left.Z + right.Z
+	public static Vector3I operator +(Vector3I self, Vector3I other) => new(
+		self.X + other.X,
+		self.Y + other.Y,
+		self.Z + other.Z
 	);
 
-	public static Vector3I operator +(Vector3I left, int right) => new(
-		left.X + right,
-		left.Y + right,
-		left.Z + right
+	public static Vector3I operator +(Vector3I self, int other) => new(
+		self.X + other,
+		self.Y + other,
+		self.Z + other
 	);
 
-	public static Vector3I operator -(Vector3I left, Vector3I right) => new(
-		left.X - right.X,
-		left.Y - right.Y,
-		left.Z - right.Z
+	public static Vector3I operator -(Vector3I self, Vector3I other) => new(
+		self.X - other.X,
+		self.Y - other.Y,
+		self.Z - other.Z
 	);
 
-	public static Vector3I operator -(Vector3I left, int right) => new(
-		left.X - right,
-		left.Y - right,
-		left.Z - right
+	public static Vector3I operator -(Vector3I self, int right) => new(
+		self.X - right,
+		self.Y - right,
+		self.Z - right
 	);
 
-	public static Vector3I operator *(Vector3I left, Vector3I right) => new(
-		left.X * right.X,
-		left.Y * right.Y,
-		left.Z * right.Z
+	public static Vector3I operator *(Vector3I self, Vector3I other) => new(
+		self.X * other.X,
+		self.Y * other.Y,
+		self.Z * other.Z
 	);
 
-	public static Vector3I operator *(Vector3I left, int right) => new(
-		left.X * right,
-		left.Y * right,
-		left.Z * right
+	public static Vector3I operator *(Vector3I self, int other) => new(
+		self.X * other,
+		self.Y * other,
+		self.Z * other
 	);
 
-	public static Vector3I operator /(Vector3I left, Vector3I right) => new(
-		left.X / right.X,
-		left.Y / right.Y,
-		left.Z / right.Z
+	public static Vector3I operator /(Vector3I self, Vector3I other) => new(
+		self.X / other.X,
+		self.Y / other.Y,
+		self.Z / other.Z
 	);
 
-	public static Vector3I operator /(Vector3I left, int right) => new(
-		left.X / right,
-		left.Y / right,
-		left.Z / right
+	public static Vector3I operator /(Vector3I self, int other) => new(
+		self.X / other,
+		self.Y / other,
+		self.Z / other
 	);
 
-	public static Vector3I operator %(Vector3I left, Vector3I right) => new(
-		left.X % right.X, left.Y % right.Y, left.Z % right.Z
+	public static Vector3I operator %(Vector3I self, Vector3I other) => new(
+		self.X % other.X, self.Y % other.Y, self.Z % other.Z
 	);
 
 	public static bool operator >(Vector3I self, Vector3I other)
@@ -159,9 +159,9 @@ public readonly record struct Vector3I(int X, int Y, int Z):
 	public static bool operator <=(Vector3I self, Vector3I other)
         => self.X <= other.X && self.Y <= other.Y && self.Z <= other.Z;
 	
-	public static implicit operator Vector3I((int X, int Y, int Z) tuple)
-		=> new(tuple.X, tuple.Y, tuple.Z);
+	public static implicit operator Vector3I((int X, int Y, int Z) other)
+		=> new(other.X, other.Y, other.Z);
 
-	public static explicit operator ValueTuple<int, int, int>(Vector3I vector)
-		=> new(vector.X, vector.Y, vector.Z);
+	public static explicit operator ValueTuple<int, int, int>(Vector3I self)
+		=> new(self.X, self.Y, self.Z);
 }
