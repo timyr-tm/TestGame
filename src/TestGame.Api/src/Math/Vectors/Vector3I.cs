@@ -49,15 +49,17 @@ public readonly record struct Vector3I(int X, int Y, int Z):
 		int.Abs(value.Z)
 	);
 
-	public static Vector3I Min(Vector3I first, Vector3I second)
-		=> first < second
-			? first
-			: second;
+	public static Vector3I Min(Vector3I first, Vector3I second) => new(
+        int.Min(first.X, second.X),
+        int.Min(first.Y, second.Y),
+        int.Min(first.Z, second.Z)
+    );
 
-	public static Vector3I Max(Vector3I first, Vector3I second) 
-		=> first > second
-			? first
-			: second;
+	public static Vector3I Max(Vector3I first, Vector3I second)  => new(
+        int.Max(first.X, second.X),
+        int.Max(first.Y, second.Y),
+        int.Max(first.Z, second.Z)
+    );
 
 	public static Vector3I Clamp(Vector3I value, Vector3I min, Vector3I max) => new(
 		int.Clamp(value.X, min.X, max.X),

@@ -47,15 +47,15 @@ public readonly record struct Vector2F(float X, float Y):
 
 	public static Vector2F Abs(Vector2F value) => new(float.Abs(value.X), float.Abs(value.Y));
 
-	public static Vector2F Min(Vector2F first, Vector2F second)
-		=> first < second
-			? first
-			: second;
+    public static Vector2F Min(Vector2F first, Vector2F second) => new(
+        float.Min(first.X, second.X),
+        float.Min(first.Y, second.Y)
+    );
 
-	public static Vector2F Max(Vector2F first, Vector2F second)
-		=> first > second
-			? first
-			: second;
+    public static Vector2F Max(Vector2F first, Vector2F second) => new(
+        float.Max(first.X, second.X),
+        float.Max(first.Y, second.Y)
+    );
 
 	public static Vector2F Clamp(Vector2F value, Vector2F min, Vector2F max) => new(
 		float.Clamp(value.X, min.X, max.X),

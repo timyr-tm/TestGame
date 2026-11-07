@@ -55,15 +55,17 @@ public readonly record struct Vector3F(float X, float Y, float Z):
 		float.Abs(value.Z)
 	);
 
-	public static Vector3F Min(Vector3F first, Vector3F second)
-		=> first < second
-			? first
-			: second;
+	public static Vector3F Min(Vector3F first, Vector3F second) => new(
+        float.Min(first.X, second.X),
+        float.Min(first.Y, second.Y),
+        float.Min(first.Z, second.Z)
+    );
 
-	public static Vector3F Max(Vector3F first, Vector3F second) 
-		=> first > second
-			? first
-			: second;
+	public static Vector3F Max(Vector3F first, Vector3F second)  => new(
+        float.Max(first.X, second.X),
+        float.Max(first.Y, second.Y),
+        float.Max(first.Z, second.Z)
+    );
 
 	public static Vector3F Clamp(Vector3F value, Vector3F min, Vector3F max) => new(
 		float.Clamp(value.X, min.X, max.X),

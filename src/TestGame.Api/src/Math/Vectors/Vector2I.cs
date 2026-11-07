@@ -42,15 +42,15 @@ public readonly record struct Vector2I(int X, int Y):
 
 	public static Vector2I Abs(Vector2I value) => new(int.Abs(value.X), int.Abs(value.Y));
 
-	public static Vector2I Min(Vector2I first, Vector2I second)
-		=> first < second
-			? first
-			: second;
+    public static Vector2I Min(Vector2I first, Vector2I second) => new(
+        int.Min(first.X, second.X),
+        int.Min(first.Y, second.Y)
+    );
 
-	public static Vector2I Max(Vector2I first, Vector2I second)
-		=> first > second
-			? first
-			: second;
+	public static Vector2I Max(Vector2I first, Vector2I second) => new(
+        int.Max(first.X, second.X),
+        int.Max(first.Y, second.Y)
+    );
 
 	public static Vector2I Clamp(Vector2I value, Vector2I min, Vector2I max) => new(
 		int.Clamp(value.X, min.X, max.X),
