@@ -4,4 +4,5 @@
 
 ## Content
 - [`TestGame.Api`](./src/TestGame.Api/README.md)
+- [`TestGame.SourceGenerators`](./src/TestGame.SourceGenerators/README.md)
 - [`TestGame.Game`](./src/TestGame.Game/README.md)
