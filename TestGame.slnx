@@ -2,4 +2,6 @@
   <Project Path="src/TestGame.Game/TestGame.Game.csproj" />
   <Project Path="src/TestGame.Api/TestGame.Api.csproj" />
   <Project Path="src/TestGame.SourceGenerators/TestGame.SourceGenerators.csproj" />
+
+  <Project Path="tests/TestGame.Api.Test/TestGame.Api.Test.csproj" />
 </Solution>
