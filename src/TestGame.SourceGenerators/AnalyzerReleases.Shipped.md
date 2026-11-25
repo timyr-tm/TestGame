@@ -5,3 +5,4 @@
 |---------|----------|----------|--------------------|
 | TG0001  | Usage    | Warning  | EventSubsGenerator |
 | TG0002  | Usage    | Warning  | EventSubsGenerator |
+| TG0003  | Usage    | Warning  | EventSubsGenerator |

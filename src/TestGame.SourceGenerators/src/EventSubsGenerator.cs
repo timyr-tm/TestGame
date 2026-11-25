@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -11,11 +12,12 @@ namespace TestGame.SourceGenerators;
 public class EventSubsGenerator: IIncrementalGenerator {
     private const string EventHandlerAttribute = "TestGame.Api.Event.EventHandlerAttribute";
     private const string EventType = "TestGame.Api.Event.Event";
+    private const string TaskType = "System.Threading.Tasks.Task";
 	
-	private static readonly DiagnosticDescriptor InvalidHandlerParameters = new(
+	private static readonly DiagnosticDescriptor InvalidHandlerModifiers = new(
 		"TG0001",
-		"Invalid handler parameters",
-		"The number of parameters is not equal to 1, or its type does not inherit from TestGame.Api.Event.Event",
+		"Invalid handler modifiers",
+		"Handler method must have static async modifiers",
 		"Usage",
 		DiagnosticSeverity.Warning,
 		true
@@ -24,13 +26,22 @@ public class EventSubsGenerator: IIncrementalGenerator {
     private static readonly DiagnosticDescriptor InvalidHandlerReturnType = new(
         "TG0002",
         "Invalid handler return type",
-        "The return type is not System.Threading.Tasks.Task",
+        $"Handler method must return {TaskType}",
         "Usage",
         DiagnosticSeverity.Warning,
         true
     );
-    
-	public void Initialize(IncrementalGeneratorInitializationContext context) {
+        
+    private static readonly DiagnosticDescriptor InvalidHandlerParameters = new(
+        "TG0003",
+        "Invalid handler parameters",
+        $"Handler method must have one parameter implementing {EventType}",
+        "Usage",
+        DiagnosticSeverity.Warning,
+        true
+    );
+
+    public void Initialize(IncrementalGeneratorInitializationContext context) {
 		IncrementalValueProvider<ImmutableArray<IMethodSymbol>> methods = context.SyntaxProvider
 			.ForAttributeWithMetadataName<IMethodSymbol>(
 				EventHandlerAttribute,
@@ -46,38 +57,47 @@ public class EventSubsGenerator: IIncrementalGenerator {
 	}
 
 	private static void RegisterSource(SourceProductionContext context, Compilation compilation, ImmutableArray<IMethodSymbol> methods) {
+        ITypeSymbol taskType = compilation.GetTypeByMetadataName(TaskType)
+            ?? throw new Exception();
 		ITypeSymbol? eventType = compilation.GetTypeByMetadataName(EventType);
-        if (eventType is null || methods.Length == 0)
+        if (eventType is null)
             return;
 		
         Dictionary<ITypeSymbol, IList<IMethodSymbol>> grouped = new(SymbolEqualityComparer.Default);
 		foreach (IMethodSymbol method in methods) {
-            
-            
-			if (method.Parameters.Length != 1) {
-				context.ReportDiagnostic(
-					Diagnostic.Create(
-						InvalidHandlerParameters,
-						method.Locations.FirstOrDefault()
-					)
-				);
-                continue;
-            }
-			ITypeSymbol parameterType = method.Parameters[0].Type;
-
-            if (!parameterType.IsInheritsFrom(eventType)) {
+            if (!method.IsStatic || !method.IsAsync) {
                 context.ReportDiagnostic(
-                    Diagnostic.Create(
-                        InvalidHandlerParameters,
-                        method.Locations.FirstOrDefault()
-                    )
+                    Diagnostic.Create(InvalidHandlerModifiers, method.Locations.FirstOrDefault())
                 );
                 continue;
             }
 
-            if (!grouped.ContainsKey(parameterType))
-				grouped[parameterType] = new List<IMethodSymbol>();
-			grouped[parameterType].Add(method);
+            if (!SymbolEqualityComparer.Default.Equals(method.ReturnType, taskType)) {
+                context.ReportDiagnostic(
+                    Diagnostic.Create(InvalidHandlerReturnType, method.ReturnType.Locations.FirstOrDefault())
+                );
+                continue;
+            }
+
+            if (method.Parameters.Length != 1) {
+                context.ReportDiagnostic(
+                    Diagnostic.Create(InvalidHandlerParameters, method.Locations.FirstOrDefault())
+                );
+                continue;
+            }
+            
+            IParameterSymbol parameter = method.Parameters[0];
+
+            if (!parameter.Type.IsInheritsFrom(eventType)) {
+                context.ReportDiagnostic(
+                    Diagnostic.Create(InvalidHandlerParameters, parameter.Locations.FirstOrDefault())
+                );
+                continue;
+            }
+
+            if (!grouped.ContainsKey(parameter.Type))
+				grouped[parameter.Type] = new List<IMethodSymbol>();
+			grouped[parameter.Type].Add(method);
 		}
 		
 		context.AddSource(
